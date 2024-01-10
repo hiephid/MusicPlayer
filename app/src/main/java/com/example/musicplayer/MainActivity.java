@@ -1,5 +1,6 @@
 package com.example.musicplayer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -38,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
         songList = new ArrayList<>();
         songAdapter = new SongAdapter(songList, this, song -> {
             // Xử lý khi một item trong RecyclerView được click
+            // Chuyển đến trang chơi nhạc và chuyển dữ liệu bài hát
+            Intent intent = new Intent(MainActivity.this, MusicPlayerActivity.class);
+            intent.putExtra("SONG_ID", song.getSongID()); // Truyền ID của bài hát
+            intent.putExtra("SONG_TITLE", song.getSongTitle());
+            intent.putExtra("ARTIST_NAME", song.getArtistName());
+            intent.putExtra("IMAGE_URL", song.getImageUrl());
+            intent.putExtra("SONG_URL", song.getSongUrl());
+            startActivity(intent);
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
