@@ -77,7 +77,4 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("Firestore", "Error getting songs from Firestore", e);
                 });
     }
-
-
-
 }

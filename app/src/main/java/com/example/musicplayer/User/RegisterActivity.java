@@ -1,7 +1,5 @@
 package com.example.musicplayer.User;
 
-import static com.example.musicplayer.R.*;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,15 +21,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
-
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     TextInputEditText editTextName,editTextEmail, editTextPassword, editTextPhone;
     Button buttonReg;
@@ -70,7 +64,7 @@ public class Register extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -92,21 +86,21 @@ public class Register extends AppCompatActivity {
                 name = String.valueOf(editTextName.getText());
 
                 if (TextUtils.isEmpty(email)){
-                    Toast.makeText(Register.this,"Enter Email",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"Enter Email",Toast.LENGTH_SHORT).show();
                     return;}
 
                 if (TextUtils.isEmpty(password)){
-                    Toast.makeText(Register.this,"Enter Password",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"Enter Password",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(phone)){
-                    Toast.makeText(Register.this,"Enter PhoneNumber",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"Enter PhoneNumber",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(name)){
-                    Toast.makeText(Register.this,"Enter Name",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"Enter Name",Toast.LENGTH_SHORT).show();
                     return;}
 
                 mAuth.createUserWithEmailAndPassword(email, password)
@@ -115,10 +109,10 @@ public class Register extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     progressBar.setVisibility(View.GONE);
-                                    Toast.makeText(Register.this, "Your account Have Been Created",
+                                    Toast.makeText(RegisterActivity.this, "Your account Have Been Created",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(Register.this, "Failed to register",
+                                    Toast.makeText(RegisterActivity.this, "Failed to register",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -128,7 +122,7 @@ public class Register extends AppCompatActivity {
                 textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(Register.this, Login.class);
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
                     });
