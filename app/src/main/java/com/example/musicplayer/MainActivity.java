@@ -3,6 +3,8 @@ package com.example.musicplayer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicplayer.Song.adapter.SongAdapter;
 import com.example.musicplayer.Song.model.Song;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -21,7 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    FirebaseAuth auth;
+    Button button;
+    TextView textView;
+    FirebaseUser user;
     private RecyclerView recyclerView;
     private SongAdapter songAdapter;
     private List<Song> songList;
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(songAdapter);
 
         readSongsFromFirestore();
+
     }
 
     private void readSongsFromFirestore() {
@@ -69,5 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("Firestore", "Error getting songs from Firestore", e);
                 });
     }
+
+
 
 }
