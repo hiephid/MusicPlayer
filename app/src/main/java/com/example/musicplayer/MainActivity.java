@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("ARTIST_NAME", song.getArtistName());
             intent.putExtra("IMAGE_URL", song.getImageUrl());
             intent.putExtra("SONG_URL", song.getSongUrl());
+
+            intent.putExtra("SONG_LIST", (Serializable) songList);
             startActivity(intent);
         });
 
