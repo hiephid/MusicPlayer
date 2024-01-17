@@ -1,4 +1,5 @@
 package com.example.musicplayer;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,10 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.example.musicplayer.Song.model.Song;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
@@ -30,44 +29,42 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
     private Handler seekBarHandler;
-    private List<Song> songList;
+
     private static final int STATE_STOPPED = 0;
     private static final int STATE_PLAYING = 1;
     private static final int STATE_PAUSED = 2;
 
     private int playerState = STATE_STOPPED;
 
-    // luu tru dung de tim kiem
-    String songID;
-    String songTitle;
-    String artistName;
-    String imageUrl;
-    String songUrl;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
-        Anhxa();
-        prepareMediaPlayer();
+
+        // Initialize views
+        coverImageView = findViewById(R.id.coverImageView);
+        titleTextView = findViewById(R.id.titleTextView);
+        artistTextView = findViewById(R.id.artistTextView);
+        seekBar = findViewById(R.id.seekBar);
+        prevButton = findViewById(R.id.prevButton);
+        playPauseButton = findViewById(R.id.playPauseButton);
+        nextButton = findViewById(R.id.nextButton);
+        loopButton = findViewById(R.id.loopButton);
+        shuffleButton = findViewById(R.id.shuffleButton);
+
         // Retrieve song data from Intent
         Intent intent = getIntent();
-
-
         if (intent != null) {
-            songID = intent.getStringExtra("SONG_ID");
-//            currentSongId = songId;
-            songTitle = intent.getStringExtra("SONG_TITLE");
-            artistName = intent.getStringExtra("ARTIST_NAME");
-            imageUrl = intent.getStringExtra("IMAGE_URL");
-            songUrl = intent.getStringExtra("SONG_URL");
+            String songId = intent.getStringExtra("SONG_ID");
+            String songTitle = intent.getStringExtra("SONG_TITLE");
+            String artistName = intent.getStringExtra("ARTIST_NAME");
+            String imageUrl = intent.getStringExtra("IMAGE_URL");
+            String songUrl = intent.getStringExtra("SONG_URL");
 
-            songList = (List<Song>) getIntent().getSerializableExtra("SONG_LIST");
-//            Toast.makeText(MusicPlayerActivity.this, "Length of songList: " + songList.size(), Toast.LENGTH_SHORT).show();
-
-
-            updateUI();
-
+            // Update UI with song information
+            titleTextView.setText(songTitle);
+            artistTextView.setText(artistName);
+            Glide.with(this).load(imageUrl).into(coverImageView);
 
             // Initialize MediaPlayer
             mediaPlayer = new MediaPlayer();
@@ -98,113 +95,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             // Handle case when no song data is available
             finish();
         }
-
-        //        Toast.makeText(MusicPlayerActivity.this, "currentSongID oncreate: " + currentSongId, Toast.LENGTH_SHORT).show();
-
-        nextButton.setOnClickListener(e -> playNextSong());
-        prevButton.setOnClickListener(e -> playPreSong());
-
     }
-
-    // -----------------------------------------------
-    // Thêm vào class MusicPlayerActivity
-    private void playNextSong() {
-        if (songList != null && songList.size() > 0 && mediaPlayer != null) {
-            int currentPosition = getCurrentSongPosition();
-            int nextPosition = (currentPosition + 1);
-
-            if (currentPosition == songList.size() - 1) {
-                nextPosition = 0;
-            }
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-
-            // Lấy thông tin của bài hát kế tiếp
-            Song nextSong = songList.get(nextPosition);
-
-            // Phát bài hát kế tiếp
-            playSong(nextSong);
-
-            updateUI(nextPosition);
-
-            // update current
-            songID = nextSong.getSongID();
-//            Toast.makeText(MusicPlayerActivity.this, "currentSongID" + currentSongId, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    //--------------------------------------
-    // xu ly prev song
-    private void playPreSong() {
-        if (songList != null && songList.size() > 0 && mediaPlayer != null) {
-            int currentPosition = getCurrentSongPosition();
-            int prePosition = (currentPosition - 1);
-
-            if (currentPosition == 0) {
-                prePosition = songList.size() - 1;
-            }
-
-            // Lấy thông tin của bài hát trước
-            Song preSong = songList.get(prePosition);
-
-            // Phát bài hát trước
-            playSong(preSong);
-
-            updateUI(prePosition);
-
-            // update current
-            songID = preSong.getSongID();
-//            Toast.makeText(MusicPlayerActivity.this, "currentSongID" + currentSongId, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-
-    private int getCurrentSongPosition() {
-        if (songList != null && songList.size() > 0 && mediaPlayer != null) {
-            for (int i = 0; i < songList.size(); i++) {
-                if (songList.get(i).getSongID().equals(songID)) {
-                    return i;
-                }
-            }
-        }
-        return -1;
-    }
-
-    private void playSong(Song song) {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-
-            try {
-                mediaPlayer.setDataSource(song.getSongUrl());
-                mediaPlayer.prepareAsync();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    //--------------------------------------------
-
-    private void prepareMediaPlayer() {
-
-    }
-
-    private void Anhxa() {
-        // Initialize view(ánh xạ)
-        coverImageView = findViewById(R.id.coverImageView);
-        titleTextView = findViewById(R.id.titleTextView);
-        artistTextView = findViewById(R.id.artistTextView);
-        seekBar = findViewById(R.id.seekBar);
-        prevButton = findViewById(R.id.prevButton);
-        playPauseButton = findViewById(R.id.playPauseButton);
-        nextButton = findViewById(R.id.nextButton);
-        loopButton = findViewById(R.id.loopButton);
-        shuffleButton = findViewById(R.id.shuffleButton);
-
-    }
-
 
     private void playMusic() {
         if (mediaPlayer != null) {
@@ -249,18 +140,5 @@ public class MusicPlayerActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         releaseMediaPlayer();
-    }
-
-    void updateUI() {
-        // Update UI with song information
-        titleTextView.setText(songTitle);
-        artistTextView.setText(artistName);
-        Glide.with(this).load(imageUrl).into(coverImageView);
-    }
-
-    private void updateUI(int i) {
-        titleTextView.setText(songList.get(i).getSongTitle());
-        artistTextView.setText(songList.get(i).getArtistName());
-        Glide.with(MusicPlayerActivity.this).load(songList.get(i).getImageUrl()).into(coverImageView);
     }
 }
