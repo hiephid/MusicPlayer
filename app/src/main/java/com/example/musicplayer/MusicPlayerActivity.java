@@ -318,7 +318,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             playerState = STATE_PAUSED;
-           // seekBarHandler.removeCallbacksAndMessages(null); // Dừng cập nhật thanh SeekBar
+            // seekBarHandler.removeCallbacksAndMessages(null); // Dừng cập nhật thanh SeekBar
         }
     }
 
@@ -368,7 +368,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
 
     private void updateSeekBar() {
-    //
+        //
         SimpleDateFormat dinhDangGio = new SimpleDateFormat("mm:ss");
         total_Time.setText(dinhDangGio.format(mediaPlayer.getDuration()));
         // gan max tg cua bai hat = mediaplayer.getduration

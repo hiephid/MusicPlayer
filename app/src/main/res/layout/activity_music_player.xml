@@ -64,7 +64,7 @@
             android:layout_alignParentEnd="true"
             android:paddingTop="10dp"
             android:paddingEnd="10dp"
-            android:text="00:00" />
+            android:text="00:00"  />
 
         <LinearLayout
             android:id="@+id/controlLayout"
