@@ -44,6 +44,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     private int playerState = STATE_STOPPED;
 
+    private Object lock = new Object();
+
+
     // luu tru dung de tim kiem
     String songID;
     String songTitle;
@@ -323,49 +326,37 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     //----------lien quan xu ly seekbar-------------------
-    private void updateTimeSong(){
-        Handler handler =new Handler();
+    private void updateTimeSong() {
+        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                SimpleDateFormat dinhDangGio = new SimpleDateFormat("mm:ss");
-                start_Time.setText(dinhDangGio.format(mediaPlayer.getCurrentPosition()));
+                synchronized (lock) {
+                    if (mediaPlayer != null) {
+                        SimpleDateFormat dinhDangGio = new SimpleDateFormat("mm:ss");
+                        start_Time.setText(dinhDangGio.format(mediaPlayer.getCurrentPosition()));
 
-                //update progress seekbar
-                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                        //update progress seekbar
+                        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    }
+                }
 
                 // kiem tra thoi gian ket thuc bai hat->next
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        playNextSong();
+                if (mediaPlayer != null) {
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            playNextSong();
+                        }
+                    });
+                }
 
-                    }
-                });
-
-
-                handler.postDelayed(this,500 );
-
+                handler.postDelayed(this, 500); //1phan 10 giay
             }
-        },100); //1phan 10 giay
-
+        }, 100);
     }
 
-
-
-
-
-
-
-
     //-----------------------------------------------
-
-
-
-
-
-
-
 
     private void updateSeekBar() {
         //
@@ -373,18 +364,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         total_Time.setText(dinhDangGio.format(mediaPlayer.getDuration()));
         // gan max tg cua bai hat = mediaplayer.getduration
         seekBar.setMax(mediaPlayer.getDuration());
-
-//        seekBarHandler = new Handler();
-//        seekBarHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (mediaPlayer != null) {
-//                    int currentPosition = mediaPlayer.getCurrentPosition();
-//                    seekBar.setProgress(currentPosition);
-//                }
-//                seekBarHandler.postDelayed(this, 1000); // Cập nhật mỗi giây
-//            }
-//        }, 1000);
     }
 
     private void releaseMediaPlayer() {
