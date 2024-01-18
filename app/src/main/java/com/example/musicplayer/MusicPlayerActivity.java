@@ -46,7 +46,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     private Object lock = new Object();
 
-
     // luu tru dung de tim kiem
     String songID;
     String songTitle;
@@ -356,7 +355,23 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }, 100);
     }
 
+    }
+
+
+
+
+
+
+
+
     //-----------------------------------------------
+
+
+
+
+
+
+
 
     private void updateSeekBar() {
         //
@@ -364,6 +379,18 @@ public class MusicPlayerActivity extends AppCompatActivity {
         total_Time.setText(dinhDangGio.format(mediaPlayer.getDuration()));
         // gan max tg cua bai hat = mediaplayer.getduration
         seekBar.setMax(mediaPlayer.getDuration());
+
+//        seekBarHandler = new Handler();
+//        seekBarHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (mediaPlayer != null) {
+//                    int currentPosition = mediaPlayer.getCurrentPosition();
+//                    seekBar.setProgress(currentPosition);
+//                }
+//                seekBarHandler.postDelayed(this, 1000); // Cập nhật mỗi giây
+//            }
+//        }, 1000);
     }
 
     private void releaseMediaPlayer() {
