@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.musicplayer.Song.model.Song;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MusicPlayerActivity extends AppCompatActivity {
@@ -21,6 +23,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private ImageView coverImageView;
     private TextView titleTextView;
     private TextView artistTextView;
+    private TextView total_Time;
+    private TextView start_Time;
+
     private SeekBar seekBar;
     private ImageButton prevButton;
     private ImageButton playPauseButton;
@@ -31,6 +36,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private Handler seekBarHandler;
     private List<Song> songList;
+    //-----------nút ngau nhien
+    private boolean shuffleMode = false;
     private static final int STATE_STOPPED = 0;
     private static final int STATE_PLAYING = 1;
     private static final int STATE_PAUSED = 2;
@@ -81,6 +88,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             mediaPlayer.setOnPreparedListener(mp -> {
                 // Start playing when MediaPlayer is prepared
                 mp.start();
+                updateTimeSong();
                 updateSeekBar();
                 playerState = STATE_PLAYING;
             });
@@ -104,17 +112,95 @@ public class MusicPlayerActivity extends AppCompatActivity {
         nextButton.setOnClickListener(e -> playNextSong());
         prevButton.setOnClickListener(e -> playPreSong());
 
+
+        //-----xu ly nut ngau nhien---
+        shuffleButton.setOnClickListener(e -> toggleShuffleMode());
+
+
+
+
+        //----su kien nguoi dung tuong tac voi seekbar
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mediaPlayer.seekTo(seekBar.getProgress());
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+        //---------------------------------------------
+
     }
+
+    //---------ham xu ly nut ngau nhien
+    private void toggleShuffleMode() {
+        shuffleMode = !shuffleMode;
+        // Update the UI to reflect the shuffle mode status (you can add an icon change or other visual indication)
+
+        if (shuffleMode) {
+            // Shuffle mode is enabled, update UI accordingly
+            // You may also want to update the logic for the "Next" button when shuffle mode is enabled
+            Toast.makeText(this, "Activate", Toast.LENGTH_SHORT).show();
+            nextButton.setEnabled(false);
+        } else {
+            // Shuffle mode is disabled, update UI accordingly
+            // Revert the logic for the "Next" button when shuffle mode is disabled
+            Toast.makeText(this, "Deativate", Toast.LENGTH_SHORT).show();
+            nextButton.setEnabled(true);
+        }
+    }
+    private int getRandomPosition() {
+        // Generate a random position within the songList size
+        return (int) (Math.random() * songList.size());
+    }
+
+
+
+
+
+
+
+
+    // ---------------------------
+
+
+
+
+
+
+
 
     // -----------------------------------------------
     // Thêm vào class MusicPlayerActivity
     private void playNextSong() {
         if (songList != null && songList.size() > 0 && mediaPlayer != null) {
             int currentPosition = getCurrentSongPosition();
-            int nextPosition = (currentPosition + 1);
-
-            if (currentPosition == songList.size() - 1) {
-                nextPosition = 0;
+            int nextPosition;
+            if (shuffleMode) {
+                nextPosition = getRandomPosition();
+            } else {
+                nextPosition = (currentPosition + 1);
+                if (currentPosition == songList.size() - 1) {
+                    nextPosition = 0;
+                }
             }
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -123,14 +209,18 @@ public class MusicPlayerActivity extends AppCompatActivity {
             // Lấy thông tin của bài hát kế tiếp
             Song nextSong = songList.get(nextPosition);
 
+            //Toast.makeText(MusicPlayerActivity.this, "Next Song ID: " + nextSong.getSongID(), Toast.LENGTH_SHORT).show();
+
             // Phát bài hát kế tiếp
             playSong(nextSong);
 
             updateUI(nextPosition);
 
+
             // update current
             songID = nextSong.getSongID();
 //            Toast.makeText(MusicPlayerActivity.this, "currentSongID" + currentSongId, Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -151,11 +241,17 @@ public class MusicPlayerActivity extends AppCompatActivity {
             // Phát bài hát trước
             playSong(preSong);
 
+
             updateUI(prePosition);
+
 
             // update current
             songID = preSong.getSongID();
 //            Toast.makeText(MusicPlayerActivity.this, "currentSongID" + currentSongId, Toast.LENGTH_SHORT).show();
+
+
+
+
         }
 
     }
@@ -183,6 +279,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
     }
     //--------------------------------------------
@@ -196,6 +293,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
         coverImageView = findViewById(R.id.coverImageView);
         titleTextView = findViewById(R.id.titleTextView);
         artistTextView = findViewById(R.id.artistTextView);
+        total_Time = findViewById(R.id.txt_totalTime);
+        start_Time = findViewById(R.id.txt_timeStart);
         seekBar = findViewById(R.id.seekBar);
         prevButton = findViewById(R.id.prevButton);
         playPauseButton = findViewById(R.id.playPauseButton);
@@ -211,6 +310,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             mediaPlayer.start();
             playerState = STATE_PLAYING;
             updateSeekBar();
+
         }
     }
 
@@ -218,24 +318,73 @@ public class MusicPlayerActivity extends AppCompatActivity {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             playerState = STATE_PAUSED;
-            seekBarHandler.removeCallbacksAndMessages(null); // Dừng cập nhật thanh SeekBar
+           // seekBarHandler.removeCallbacksAndMessages(null); // Dừng cập nhật thanh SeekBar
         }
     }
 
-    private void updateSeekBar() {
-        seekBar.setMax(mediaPlayer.getDuration());
-
-        seekBarHandler = new Handler();
-        seekBarHandler.postDelayed(new Runnable() {
+    //----------lien quan xu ly seekbar-------------------
+    private void updateTimeSong(){
+        Handler handler =new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mediaPlayer != null) {
-                    int currentPosition = mediaPlayer.getCurrentPosition();
-                    seekBar.setProgress(currentPosition);
-                }
-                seekBarHandler.postDelayed(this, 1000); // Cập nhật mỗi giây
+                SimpleDateFormat dinhDangGio = new SimpleDateFormat("mm:ss");
+                start_Time.setText(dinhDangGio.format(mediaPlayer.getCurrentPosition()));
+
+                //update progress seekbar
+                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+
+                // kiem tra thoi gian ket thuc bai hat->next
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        playNextSong();
+
+                    }
+                });
+
+
+                handler.postDelayed(this,500 );
+
             }
-        }, 1000);
+        },100); //1phan 10 giay
+
+    }
+
+
+
+
+
+
+
+
+    //-----------------------------------------------
+
+
+
+
+
+
+
+
+    private void updateSeekBar() {
+    //
+        SimpleDateFormat dinhDangGio = new SimpleDateFormat("mm:ss");
+        total_Time.setText(dinhDangGio.format(mediaPlayer.getDuration()));
+        // gan max tg cua bai hat = mediaplayer.getduration
+        seekBar.setMax(mediaPlayer.getDuration());
+
+//        seekBarHandler = new Handler();
+//        seekBarHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (mediaPlayer != null) {
+//                    int currentPosition = mediaPlayer.getCurrentPosition();
+//                    seekBar.setProgress(currentPosition);
+//                }
+//                seekBarHandler.postDelayed(this, 1000); // Cập nhật mỗi giây
+//            }
+//        }, 1000);
     }
 
     private void releaseMediaPlayer() {
