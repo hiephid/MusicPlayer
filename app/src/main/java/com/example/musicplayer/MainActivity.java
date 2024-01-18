@@ -1,12 +1,16 @@
 package com.example.musicplayer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
@@ -24,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicplayer.Song.adapter.SongAdapter;
 import com.example.musicplayer.Song.model.Song;
+import com.example.musicplayer.User.LoginActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -84,10 +89,10 @@ public class MainActivity extends AppCompatActivity{
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(item -> {
-                if (item.getItemId() == R.id.home) {
-                    Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
-                } else if (item.getItemId() == R.id.draw) {
-                    Toast.makeText(MainActivity.this, "Draw", Toast.LENGTH_SHORT).show();
+                if (item.getItemId() == R.id.songlist) {
+                    Toast.makeText(MainActivity.this, "SongList", Toast.LENGTH_SHORT).show();
+                } else if (item.getItemId() == R.id.logout) {
+                    showLogoutConfirmationDialog();
                 }
 
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -125,5 +130,25 @@ public class MainActivity extends AppCompatActivity{
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showLogoutConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Đăng Xuất");
+        builder.setMessage("Bạn có muốn đăng xuất không?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Xử lý khi người dùng chọn Không
+                dialog.dismiss(); // Tắt hộp thoại
+            }
+        });
+        builder.show();
     }
 }
