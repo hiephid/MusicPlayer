@@ -341,7 +341,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     }
                 }
 
-                // kiem tra thoi gian ket thuc bai hat->next
+                // kiem tra thoi gian ket thuc bai hat->next.
                 if (mediaPlayer != null) {
                     mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
