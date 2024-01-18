@@ -27,11 +27,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private TextView start_Time;
 
     private SeekBar seekBar;
-    private ImageButton prevButton;
-    private ImageButton playPauseButton;
-    private ImageButton nextButton;
-    private ImageButton loopButton;
-    private ImageButton shuffleButton;
+    private ImageView prevButton;
+    private ImageView playPauseButton;
+    private ImageView nextButton;
+    private ImageView loopButton;
+    private ImageView shuffleButton;
 
     private MediaPlayer mediaPlayer;
     private Handler seekBarHandler;
@@ -140,14 +140,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
         //---------------------------------------------
 
     }
@@ -174,23 +166,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
         return (int) (Math.random() * songList.size());
     }
 
-
-
-
-
-
-
-
-    // ---------------------------
-
-
-
-
-
-
-
-
     // -----------------------------------------------
+
     // Thêm vào class MusicPlayerActivity
     private void playNextSong() {
         if (songList != null && songList.size() > 0 && mediaPlayer != null) {
@@ -250,8 +227,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
             // update current
             songID = preSong.getSongID();
 //            Toast.makeText(MusicPlayerActivity.this, "currentSongID" + currentSongId, Toast.LENGTH_SHORT).show();
-
-
 
 
         }
@@ -355,23 +330,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }, 100);
     }
 
-    }
-
-
-
-
-
-
-
-
     //-----------------------------------------------
-
-
-
-
-
-
-
 
     private void updateSeekBar() {
         //
@@ -379,18 +338,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         total_Time.setText(dinhDangGio.format(mediaPlayer.getDuration()));
         // gan max tg cua bai hat = mediaplayer.getduration
         seekBar.setMax(mediaPlayer.getDuration());
-
-//        seekBarHandler = new Handler();
-//        seekBarHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (mediaPlayer != null) {
-//                    int currentPosition = mediaPlayer.getCurrentPosition();
-//                    seekBar.setProgress(currentPosition);
-//                }
-//                seekBarHandler.postDelayed(this, 1000); // Cập nhật mỗi giây
-//            }
-//        }, 1000);
     }
 
     private void releaseMediaPlayer() {
