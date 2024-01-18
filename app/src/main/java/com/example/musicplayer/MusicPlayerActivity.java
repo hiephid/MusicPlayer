@@ -99,8 +99,10 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 if (mediaPlayer != null) {
                     if (playerState == STATE_PLAYING) {
                         pauseMusic();
+
                     } else {
                         playMusic();
+
                     }
                 }
             });
@@ -199,7 +201,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             // update current
             songID = nextSong.getSongID();
 //            Toast.makeText(MusicPlayerActivity.this, "currentSongID" + currentSongId, Toast.LENGTH_SHORT).show();
-
+            playPauseButton.setImageResource(R.drawable.pause);
         }
     }
 
@@ -227,8 +229,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             // update current
             songID = preSong.getSongID();
 //            Toast.makeText(MusicPlayerActivity.this, "currentSongID" + currentSongId, Toast.LENGTH_SHORT).show();
-
-
+            playPauseButton.setImageResource(R.drawable.pause);
         }
 
     }
@@ -287,7 +288,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             mediaPlayer.start();
             playerState = STATE_PLAYING;
             updateSeekBar();
-
+            playPauseButton.setImageResource(R.drawable.pause);
         }
     }
 
@@ -295,7 +296,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             playerState = STATE_PAUSED;
-            // seekBarHandler.removeCallbacksAndMessages(null); // Dừng cập nhật thanh SeekBar
+            playPauseButton.setImageResource(R.drawable.play);
         }
     }
 
