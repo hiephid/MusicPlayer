@@ -1,17 +1,16 @@
 <resources>
     <string name="app_name">MusicPlayer</string>
-    <string name="confirm">Confirm</string>
-    <string name="register_now">Register Now</string>
-    <string name="login">Login</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="register_now">Đăng ký?</string>
+    <string name="login">Đăng Nhập</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
-    <string name="register">Register</string>
-    <string name="name">Name</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="don_t_have_an_account">Don\'t Have An Account?</string>
-    <string name="already_have_an_account">Already Have An Account?</string>
-    <string name="login_now">Login Now!</string>
-    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Đăng Ký</string>
+    <string name="name">Tên người dùng</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="don_t_have_an_account">Bạn không có tài khoản?</string>
+    <string name="already_have_an_account">Bạn đã có tài khoản?</string>
+    <string name="login_now">Đăng nhập ngay!</string>
     <string name="open">Open Navigtaion Drawer</string>
     <string name="close">Close Navigtaion Drawer</string>
 </resources>
