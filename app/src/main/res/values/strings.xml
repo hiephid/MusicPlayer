@@ -12,4 +12,6 @@
     <string name="already_have_an_account">Already Have An Account?</string>
     <string name="login_now">Login Now!</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="open">Open Navigtaion Drawer</string>
+    <string name="close">Close Navigtaion Drawer</string>
 </resources>
