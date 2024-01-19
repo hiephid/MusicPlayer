@@ -4,16 +4,13 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-
 android:id="@+id/drawerLayout">
 
     <!-- activity_main.xml -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".MainActivity"
-        tools:layout_editor_absoluteX="-92dp">
+        tools:context=".MainActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -21,9 +18,7 @@ android:id="@+id/drawerLayout">
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="0dp"
-            android:background="#8C52FF"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:background="#8C52FF" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -37,7 +32,6 @@ android:id="@+id/drawerLayout">
             android:layout_marginTop="7dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
-            android:clipToPadding="false"
             android:padding="16dp" />
 
     </RelativeLayout>
