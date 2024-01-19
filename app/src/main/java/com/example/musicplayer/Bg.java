@@ -22,15 +22,15 @@ public class Bg extends AppCompatActivity {
         setContentView(R.layout.activity_bg);
         handler = new Handler();
         handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(Bg.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+            @Override
+            public void run() {
+                Intent intent = new Intent(Bg.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
 
 
-                }
-            },5000);
+            }
+        },5000);
 
     }
 }
