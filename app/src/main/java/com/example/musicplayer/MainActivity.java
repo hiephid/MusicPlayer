@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,7 +12,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,7 +22,6 @@ import com.example.musicplayer.Song.model.Song;
 import com.example.musicplayer.User.LoginActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -35,7 +31,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
     FirebaseAuth auth;
-    FirebaseUser user;
     private RecyclerView recyclerView;
     private SongAdapter songAdapter;
     private List<Song> songList;
@@ -49,6 +44,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Khởi tạo các đối tượng và thiết lập RecyclerView
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
@@ -72,17 +68,19 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(songAdapter);
 
+        // Đọc danh sách bài hát từ Firestore và cập nhật RecyclerView
         readSongsFromFirestore();
 
+        // Thiết lập thanh toolbar và điều hướng DrawerLayout
         Toolbar toolbar = findViewById(R.id.toolbar);
         setTitle("Danh sách bài hát");
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar); // Thiết lập toolbar như ActionBar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+        drawerToggle.syncState(); // Đồng bộ trạng thái của DrawerLayout với ActionBarDrawerToggle
         navigationView.setNavigationItemSelectedListener(item -> {
                 if (item.getItemId() == R.id.songlist) {
                     Toast.makeText(MainActivity.this, "SongList", Toast.LENGTH_SHORT).show();
@@ -90,11 +88,12 @@ public class MainActivity extends AppCompatActivity{
                     showLogoutConfirmationDialog();
                 }
 
-                drawerLayout.closeDrawer(GravityCompat.START);
+                drawerLayout.closeDrawer(GravityCompat.START); //Đóng DrawerLayout
                 return true;
         });
     }
 
+    // Đọc danh sách bài hát từ Firestore
     private void readSongsFromFirestore() {
         db.collection("Songs").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -103,13 +102,14 @@ public class MainActivity extends AppCompatActivity{
                         songList.add(song);
                         Log.d("Firestore", "Song Title: " + song.getSongTitle());
                     }
-                    songAdapter.notifyDataSetChanged();
+                    songAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Firestore", "Error getting songs from Firestore", e);
                 });
     }
 
+    // Nút back
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    // MenuItem được chọn
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)) {

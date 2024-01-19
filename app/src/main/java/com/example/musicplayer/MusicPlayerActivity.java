@@ -308,22 +308,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
 
-    private void playMusic() {
-        if (mediaPlayer != null) {
-            mediaPlayer.start();
-            playerState = STATE_PLAYING;
-            updateSeekBar();
-            playPauseButton.setImageResource(R.drawable.pause);
-        }
-    }
-
-    private void pauseMusic() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-            playerState = STATE_PAUSED;
-            playPauseButton.setImageResource(R.drawable.play);
-        }
-    }
 
     //----------lien quan xu ly seekbar-------------------
     private void updateTimeSong() {
@@ -379,19 +363,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         seekBar.setMax(mediaPlayer.getDuration());
     }
 
-    private void releaseMediaPlayer() {
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        releaseMediaPlayer();
-    }
-
     void updateUI() {
         // Update UI with song information
         titleTextView.setText(songTitle);
@@ -405,5 +376,35 @@ public class MusicPlayerActivity extends AppCompatActivity {
         artistTextView.setText(songList.get(i).getArtistName());
         Glide.with(MusicPlayerActivity.this).load(songList.get(i).getRoundImageUrl()).into(coverImageView);
         coverImageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.disc_rotate));
+    }
+
+    private void playMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+            playerState = STATE_PLAYING;
+            updateSeekBar();
+            playPauseButton.setImageResource(R.drawable.pause);
+        }
+    }
+
+    private void pauseMusic() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            playerState = STATE_PAUSED;
+            playPauseButton.setImageResource(R.drawable.play);
+        }
+    }
+
+    private void releaseMediaPlayer() {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        releaseMediaPlayer();
     }
 }

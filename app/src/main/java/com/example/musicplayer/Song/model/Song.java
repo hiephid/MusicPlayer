@@ -3,7 +3,7 @@ package com.example.musicplayer.Song.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-// Song.java
+// Lớp biểu diễn đối tượng Song
 public class Song implements Parcelable {
     private String songID;
     private String songTitle;
@@ -12,10 +12,11 @@ public class Song implements Parcelable {
     private String roundImageUrl;
     private String songUrl;
 
+    // Constructor
     public Song() {
-        // Empty constructor needed for Firestore
     }
 
+    // Constructor với tham số
     public Song(String songID, String songTitle, String artistName, String imageUrl, String roundImageUrl, String songUrl) {
         this.songID = songID;
         this.songTitle = songTitle;
@@ -25,6 +26,7 @@ public class Song implements Parcelable {
         this.roundImageUrl = roundImageUrl;
     }
 
+    // Getter
     public String getSongID() {
         return songID;
     }
@@ -49,7 +51,7 @@ public class Song implements Parcelable {
         return songUrl;
     }
 
-    // Parcelable implementation
+    // Constructor để tạo đối tượng Song từ Parcel
     protected Song(Parcel in) {
         songID = in.readString();
         songTitle = in.readString();
@@ -59,6 +61,7 @@ public class Song implements Parcelable {
         songUrl = in.readString();
     }
 
+    // Phương thức để ghi giá trị của đối tượng Song vào Parcel
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(songID);
@@ -69,11 +72,13 @@ public class Song implements Parcelable {
         dest.writeString(songUrl);
     }
 
+    // Phương thức mô tả nếu có các đối tượng đặc biệt trong Parcel
     @Override
     public int describeContents() {
         return 0;
     }
 
+    // Creator để tạo đối tượng Song từ Parcel và mảng Song từ size (Đóng gói)
     public static final Creator<Song> CREATOR = new Creator<Song>() {
         @Override
         public Song createFromParcel(Parcel in) {
