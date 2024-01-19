@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         songList = new ArrayList<>();
         songAdapter = new SongAdapter(songList, this, song -> {
@@ -147,11 +148,18 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void performLogout() {
+        Log.d("MyApp", "performLogout: Logging out...");
         if (auth != null) {
             auth.signOut();
+            Log.d("MyApp", "performLogout: Firebase sign out successful.");
+        } else {
+            Log.w("MyApp", "performLogout: Auth object is null.");
         }
+
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+        Log.d("MyApp", "performLogout: Starting LoginActivity.");
         finish();
+        Log.d("MyApp", "performLogout: Finishing current activity.");
     }
 }

@@ -27,10 +27,8 @@ public class Bg extends AppCompatActivity {
                 Intent intent = new Intent(Bg.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
-
-
             }
-        },5000);
+        },3000);
 
     }
 }
