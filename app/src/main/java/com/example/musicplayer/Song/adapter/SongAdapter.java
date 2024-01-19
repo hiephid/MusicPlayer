@@ -79,7 +79,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         }
     }
 
-    // Interface định nghĩa sự kiện nghe khi item được click
+    // Interface định nghĩa sự kiện khi item được click
     public interface OnItemClickListener {
         void onItemClick(Song song);
     }
