@@ -38,6 +38,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private List<Song> songList;
     //-----------nút ngau nhien
     private boolean shuffleMode = false;
+    private boolean loopMode = false;
+
     private static final int STATE_STOPPED = 0;
     private static final int STATE_PLAYING = 1;
     private static final int STATE_PAUSED = 2;
@@ -120,6 +122,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
         //-----xu ly nut ngau nhien---
         shuffleButton.setOnClickListener(e -> toggleShuffleMode());
 
+        //---xu ly nut lap lai---
+        loopButton.setOnClickListener(e -> toggleLoopMode());
+
+
+
 
 
 
@@ -145,7 +152,15 @@ public class MusicPlayerActivity extends AppCompatActivity {
         //---------------------------------------------
 
     }
-
+    //---------ham xu ly lap lai--------
+    private void toggleLoopMode() {
+        loopMode = !loopMode;
+        if (loopMode) {
+            Toast.makeText(this, "Loop Mode Enabled", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Loop Mode Disabled", Toast.LENGTH_SHORT).show();
+        }
+    }
     //---------ham xu ly nut ngau nhien
     private void toggleShuffleMode() {
         shuffleMode = !shuffleMode;
@@ -318,13 +333,26 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
                 // kiem tra thoi gian ket thuc bai hat->next.
                 if (mediaPlayer != null) {
-                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            playNextSong();
+                    if(loopMode){
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                playSong(songList.get(getCurrentSongPosition()));
+                            }
+                        });
+                    }
+                    else {
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                playNextSong();
+                            }
+                        });
+
                         }
-                    });
+
                 }
+
 
                 handler.postDelayed(this, 100);
             }
