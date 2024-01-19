@@ -33,6 +33,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private ImageView loopButton;
     private ImageView shuffleButton;
 
+
     private MediaPlayer mediaPlayer;
     private Handler seekBarHandler;
     private List<Song> songList;
