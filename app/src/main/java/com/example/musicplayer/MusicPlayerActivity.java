@@ -55,6 +55,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     String songTitle;
     String artistName;
     String imageUrl;
+    String roundImageUrl;
     String songUrl;
     //------------animation----------------
     Animation animation;
@@ -79,6 +80,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             songTitle = intent.getStringExtra("SONG_TITLE");
             artistName = intent.getStringExtra("ARTIST_NAME");
             imageUrl = intent.getStringExtra("IMAGE_URL");
+            roundImageUrl = intent.getStringExtra("ROUND_IMAGE_URL");
             songUrl = intent.getStringExtra("SONG_URL");
 
             songList = (List<Song>) getIntent().getSerializableExtra("SONG_LIST");
@@ -394,14 +396,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
         // Update UI with song information
         titleTextView.setText(songTitle);
         artistTextView.setText(artistName);
-        Glide.with(this).load(imageUrl).into(coverImageView);
+        Glide.with(this).load(roundImageUrl).into(coverImageView);
         coverImageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.disc_rotate));
     }
 
     private void updateUI(int i) {
         titleTextView.setText(songList.get(i).getSongTitle());
         artistTextView.setText(songList.get(i).getArtistName());
-        Glide.with(MusicPlayerActivity.this).load(songList.get(i).getImageUrl()).into(coverImageView);
+        Glide.with(MusicPlayerActivity.this).load(songList.get(i).getRoundImageUrl()).into(coverImageView);
         coverImageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.disc_rotate));
     }
 }

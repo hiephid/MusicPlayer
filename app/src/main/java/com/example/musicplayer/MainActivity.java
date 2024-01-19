@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity{
             intent.putExtra("SONG_TITLE", song.getSongTitle());
             intent.putExtra("ARTIST_NAME", song.getArtistName());
             intent.putExtra("IMAGE_URL", song.getImageUrl());
+            intent.putExtra("ROUND_IMAGE_URL", song.getRoundImageUrl());
             intent.putExtra("SONG_URL", song.getSongUrl());
 
             intent.putExtra("SONG_LIST", (Serializable) songList);

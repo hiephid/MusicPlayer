@@ -9,18 +9,20 @@ public class Song implements Parcelable {
     private String songTitle;
     private String artistName;
     private String imageUrl;
+    private String roundImageUrl;
     private String songUrl;
 
     public Song() {
         // Empty constructor needed for Firestore
     }
 
-    public Song(String songID, String songTitle, String artistName, String imageUrl, String songUrl) {
+    public Song(String songID, String songTitle, String artistName, String imageUrl, String roundImageUrl, String songUrl) {
         this.songID = songID;
         this.songTitle = songTitle;
         this.artistName = artistName;
         this.imageUrl = imageUrl;
         this.songUrl = songUrl;
+        this.roundImageUrl = roundImageUrl;
     }
 
     public String getSongID() {
@@ -39,6 +41,10 @@ public class Song implements Parcelable {
         return imageUrl;
     }
 
+    public String getRoundImageUrl() {
+        return roundImageUrl;
+    }
+
     public String getSongUrl() {
         return songUrl;
     }
@@ -49,6 +55,7 @@ public class Song implements Parcelable {
         songTitle = in.readString();
         artistName = in.readString();
         imageUrl = in.readString();
+        roundImageUrl = in.readString();
         songUrl = in.readString();
     }
 
@@ -58,6 +65,7 @@ public class Song implements Parcelable {
         dest.writeString(songTitle);
         dest.writeString(artistName);
         dest.writeString(imageUrl);
+        dest.writeString(roundImageUrl);
         dest.writeString(songUrl);
     }
 
