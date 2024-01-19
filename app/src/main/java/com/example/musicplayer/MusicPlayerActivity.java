@@ -3,6 +3,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -54,12 +56,18 @@ public class MusicPlayerActivity extends AppCompatActivity {
     String artistName;
     String imageUrl;
     String songUrl;
+    //------------animation----------------
+    Animation animation;
+    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
         Anhxa();
+        //-------animation
+      //  animation = AnimationUtils.loadAnimation(this, R.anim.disc_rotate);
+        //-----------------
         prepareMediaPlayer();
         // Retrieve song data from Intent
         Intent intent = getIntent();
@@ -387,11 +395,13 @@ public class MusicPlayerActivity extends AppCompatActivity {
         titleTextView.setText(songTitle);
         artistTextView.setText(artistName);
         Glide.with(this).load(imageUrl).into(coverImageView);
+        coverImageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.disc_rotate));
     }
 
     private void updateUI(int i) {
         titleTextView.setText(songList.get(i).getSongTitle());
         artistTextView.setText(songList.get(i).getArtistName());
         Glide.with(MusicPlayerActivity.this).load(songList.get(i).getImageUrl()).into(coverImageView);
+        coverImageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.disc_rotate));
     }
 }
