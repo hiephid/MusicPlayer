@@ -326,7 +326,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     });
                 }
 
-                handler.postDelayed(this, 500); //1phan 10 giay
+                handler.postDelayed(this, 100);
             }
         }, 100);
     }

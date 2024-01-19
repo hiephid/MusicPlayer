@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.MusicPlayer" parent="Base.Theme.MusicPlayer" />
+    <style name="Theme.Music" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/music</item>
+
+    </style>
 </resources>
